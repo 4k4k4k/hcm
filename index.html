@@ -755,33 +755,32 @@
 
         // File upload handling
         function handleFileUpload(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const fileInfo = document.getElementById('fileInfo');
-                const fileName = document.getElementById('fileName');
-                const fileSize = document.getElementById('fileSize');
-                const recordCount = document.getElementById('recordCount');
-                
-                fileName.textContent = `File: ${file.name}`;
-                fileSize.textContent = `Size: ${(file.size / 1024).toFixed(2)} KB`;
-                
-                fileInfo.style.display = 'block';
-                
-                // Handle different file types
-                const fileName = file.name.toLowerCase();
-                if (fileName.endsWith('.csv')) {
-                    handleCSVFile(file);
-                } else if (fileName.endsWith('.xls') || fileName.endsWith('.xlsx')) {
-                    // For Excel files, we'll simulate data since we can't parse without libraries
-                    alert('Excel file detected. For this demo version, sample data will be loaded.\n\nIn a production environment, the Excel file would be properly parsed.\n\nAlternatively, you can save your Excel file as CSV and upload it.');
-                    loadSampleData();
-                    recordCount.textContent = `Records loaded: ${employeeData.length}`;
-                } else {
-                    alert('Please upload a CSV, XLS, or XLSX file.');
-                    fileInfo.style.display = 'none';
-                }
-            }
+    const file = event.target.files[0];
+    if (file) {
+        const fileInfo = document.getElementById('fileInfo');
+        const fileNameElem = document.getElementById('fileName');
+        const fileSize = document.getElementById('fileSize');
+        const recordCount = document.getElementById('recordCount');
+
+        fileNameElem.textContent = `File: ${file.name}`;
+        fileSize.textContent = `Size: ${(file.size / 1024).toFixed(2)} KB`;
+
+        fileInfo.style.display = 'block';
+
+        const fileNameLower = file.name.toLowerCase();
+        if (fileNameLower.endsWith('.csv')) {
+            handleCSVFile(file);
+        } else if (fileNameLower.endsWith('.xls') || fileNameLower.endsWith('.xlsx')) {
+            alert('Excel file detected. For this demo version, sample data will be loaded.\n\nIn a production environment, the Excel file would be properly parsed.\n\nAlternatively, you can save your Excel file as CSV and upload it.');
+            loadSampleData();
+            recordCount.textContent = `Records loaded: ${employeeData.length}`;
+        } else {
+            alert('Please upload a CSV, XLS, or XLSX file.');
+            fileInfo.style.display = 'none';
         }
+    }
+}
+
 
         // Handle CSV file
         function handleCSVFile(file) {
